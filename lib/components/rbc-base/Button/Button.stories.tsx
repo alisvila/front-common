@@ -4,7 +4,7 @@ import { Download, Mail, Plus, Settings, Trash2 } from "lucide-react";
 
 
 const meta = {
-  title: 'Components/Button',
+  title: 'Components/RBC-Base/Button',
   component: Button,
   parameters: {
     layout: 'centered',

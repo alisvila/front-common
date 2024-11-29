@@ -1,0 +1,185 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import  * as BadgeComponentStories  from '../components/rbc-base/Badge/Badge.stories';
+import  Badge  from '../components/rbc-base/Badge';
+import * as ButtonComponentStories from '../components/rbc-base/Button/Button.stories';
+import Button from '../components/rbc-base/Button';
+import * as TableComponentComponentStories from '../components/rbc-base/DataTable/DataGrid.stories';
+
+<Meta title="Introduction" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # React Component Library
+    
+    A collection of flexible, themeable React components built with TypeScript and Tailwind CSS.
+  </div>
+  
+  <div className="sb-section">
+    <div className="sb-section-item">
+      <h2>🎨 Themeable Components</h2>
+      <p>All components support customization through CSS variables and the ThemeProvider.</p>
+      
+      <div className="sb-features">
+        <Badge variant="primary">Theme Support</Badge>
+        <Badge variant="success">RTL Ready</Badge>
+        <Badge variant="warning">TypeScript</Badge>
+        <Badge variant="info">Accessible</Badge>
+      </div>
+    </div>
+
+    <div className="sb-section-item">
+      <h2>📚 Getting Started</h2>
+      <p>Install the package and its peer dependencies:</p>
+      
+      ```bash
+      npm install @your-org/react-components
+      npm install tailwindcss @lucide-react
+      ```
+    </div>
+  </div>
+
+  <div className="sb-section">
+    <div className="sb-features-title">
+      ## Core Components
+    </div>
+    
+    <div className="sb-grid">
+      <div className="sb-grid-item">
+        ### Data Table
+        A feature-rich table component with support for:
+        - Pagination
+        - Sorting
+        - Search
+        - Row Selection
+        - Expandable Rows
+        - Custom Actions
+        
+        [View Documentation →](/docs/components-rbc-base-table--docs)
+      </div>
+      
+      <div className="sb-grid-item">
+        ### Button
+        Flexible button component with:
+        - Multiple variants
+        - Size options
+        - Icon support
+        - Loading states
+        
+        [View Documentation →](/docs/components-rbc-base-button--docs)
+      </div>
+      
+      <div className="sb-grid-item">
+        ### Badge
+        Versatile badge component featuring:
+        - Various styles
+        - Icon integration
+        - Removable option
+        - Size variations
+
+        <Meta of={ButtonComponentStories} />
+        [View Documentation →](/docs/components-rbc-base-badge--docs)
+      </div>
+    </div>
+  </div>
+
+  <div className="sb-section">
+    <div className="sb-section-title">
+      ## Theme Customization
+    </div>
+    
+    [View Documentation →](/docs/components-themeprovider--docs)
+    <div className="sb-subsection">
+      ```tsx
+      import { ThemeProvider } from '@your-org/react-components';
+
+      const theme = {
+        primary: '#3B82F6',
+        'primary-hover': '#2563EB',
+        'text-primary': '#111827',
+        // ... more variables
+      };
+
+      function App() {
+        return (
+          <ThemeProvider initialTheme={theme}>
+            <YourApp />
+          </ThemeProvider>
+        );
+      }
+      ```
+    </div>
+  </div>
+
+  <div className="sb-section">
+    <div className="sb-section-title">
+      ## Component Example
+    </div>
+
+    <div className="sb-subsection">
+      <Canvas>
+        <Button variant="primary" icon={<span>→</span>}>
+          Get Started
+        </Button>
+      </Canvas>
+    </div>
+  </div>
+</div>
+
+<style>
+{`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    padding: 32px 0;
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section-item {
+    margin-bottom: 24px;
+  }
+
+  .sb-features {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .sb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .sb-grid-item {
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 24px;
+  }
+
+  .sb-grid-item h3 {
+    margin-top: 0;
+  }
+
+  .sb-subsection {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 8px;
+    background-color: #F9FAFB;
+  }
+
+  .sb-code {
+    margin: 0;
+    padding: 16px;
+    background-color: #1F2937;
+    border-radius: 4px;
+    color: #F9FAFB;
+  }
+`}
+</style>

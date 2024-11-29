@@ -1,213 +1,344 @@
-# React Table Component
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import TableComponent from './index';
 
-This is a feature-rich, customizable table component for React applications. It supports:
+<Meta
+  title="Components/TableComponent"
+  component={TableComponent}
+/>
 
-- Server-side and client-side pagination, sorting, and search 
-- Expandable rows to show additional content
-- Optional row selection (checkboxes)
-- Custom action menus per row
+# Table Component
+
+A feature-rich, customizable table component for React applications that supports:
+
+- Server-side and client-side pagination
+- Sorting functionality
+- Search capabilities
+- Expandable rows
+- Row selection with checkboxes
+- Custom action menus
 - Loading states
 - Empty states with optional "Add New" button
-- Tailwind CSS for styling
+- RTL support
+- Theme customization
 
-## Props
+## Installation
 
-| Prop | Type | Required | Description | 
-|------|------|----------|-------------|
-| `data` | `T[]` | Yes | The data to display in the table |
-| `columns` | `{ key: keyof T; header: string; sortable?: boolean; }[]` | Yes | Define the columns of the table |
-| `itemsPerPage` | `number` | No | Number of rows per page (default: 10) |  
-| `enableRowSelection` | `boolean` | No | Enable checkbox row selection (default: false) |
-| `renderActionMenu` | `(row: T) => React.ReactNode` | No | Render a custom action menu for each row |
-| `totalItems` | `number` | No | Total number of items (for server-side pagination) |
-| `onPageChange` | `(page: number) => void` | No | Callback when page changes (for server-side pagination) |
-| `onSort` | `(key: keyof T, direction: 'asc' | 'desc') => void` | No | Callback when sorting changes (for server-side sorting) | 
-| `onSearch` | `(term: string) => void` | No | Callback when search term changes (for server-side search) |
-| `currentPage` | `number` | No | Current page number (for controlled pagination state) |
-| `searchTerm` | `string` | No | Current search term (for controlled search state) |
-| `sortConfig` | `{ key: keyof T | null; direction: 'asc' | 'desc'; }` | No | Current sort config (for controlled sort state) |
-| `loading` | `boolean` | No | Show loading spinner overlay (default: false) | 
-| `expandableContent` | `(row: T) => Promise<React.ReactNode>` | No | Async function to get content of expanded row |
-| `onRowClick` | `(row: T) => void` | No | Callback when a row is clicked |
-| `onAddNew` | `() => void` | No | Callback when "Add New" button is clicked |
-| `addNewButtonLabel` | `string` | No | Label for "Add New" button in empty state (default: 'افزودن') |
-| `hideSearch` | `boolean` | No | Hide the search box (default: false) |
-| `emptyStateMessage` | `string` | No | Message to show in empty state (default: 'داده‌ای یافت نشد') |
-| `emptyStateDescription` | `string` | No | Description to show in empty state |
+The Table Component is designed to work with Tailwind CSS and requires some peer dependencies:
+
+```bash
+npm install @lucide-react  # For icons
+```
+
+## Theme Customization
+
+The table supports theme customization through CSS variables:
+
+```css
+:root {
+  /* Base colors */
+  --rbc-primary: #3B82F6;
+  --rbc-primary-hover: #2563EB;
+  --rbc-secondary: #E5E7EB;
+  --rbc-secondary-hover: #D1D5DB;
   
-## Usage Scenarios
-
-### Basic Usage
-
-```jsx
-<TableComponent 
-  data={products}
-  columns={[
-    { key: 'id', header: 'ID' },
-    { key: 'name', header: 'Name', sortable: true },
-    { key: 'price', header: 'Price', sortable: true },
-  ]}
-/>
+  /* Text colors */
+  --rbc-text-primary: #111827;
+  --rbc-text-secondary: #6B7280;
+  
+  /* Background colors */
+  --rbc-bg-primary: #FFFFFF;
+  --rbc-bg-secondary: #F3F4F6;
+  --rbc-bg-hover: #F9FAFB;
+  --rbc-bg-selected: #EFF6FF;
+  
+  /* Border colors */
+  --rbc-border-color: #E5E7EB;
+  
+  /* Table specific */
+  --rbc-table-header-bg: var(--rbc-bg-secondary);
+  --rbc-table-row-hover: var(--rbc-bg-hover);
+  --rbc-table-border: var(--rbc-border-color);
+  --rbc-table-stripe: var(--rbc-bg-secondary);
+}
 ```
 
-### Client-Side Pagination, Search & Sort
+## Basic Usage
 
-```jsx
-<TableComponent
-  data={largeDataset} 
-  columns={[
-    { key: 'name', header: 'Name', sortable: true },
-    { key: 'email', header: 'Email' },
-    { key: 'role', header: 'Role', sortable: true },
-  ]}
-  itemsPerPage={20}
-/>
-```
+The most basic usage of the Table Component:
 
-The table will handle pagination, search and sorting client-side. Initial sort column and direction can be set with the `sortConfig` prop.
+```tsx
+import TableComponent from './TableComponent';
 
-### Server-Side Pagination, Search & Sort
+const columns = [
+  { key: 'id', header: 'ID' },
+  { key: 'name', header: 'Name', sortable: true },
+  { key: 'email', header: 'Email' },
+];
 
-```jsx
+const data = [
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+];
+
 function MyComponent() {
-  const [pagedData, setPagedData] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-
-  const fetchPageFromServer = async (page) => {
-    const res = await fetch(`/api/data?page=${page}&search=${searchTerm}&sortKey=${sortConfig.key}&sortDir=${sortConfig.direction}`);
-    const json = await res.json();
-    setPagedData(json.data);
-    setTotalItems(json.total);
-    setCurrentPage(page);
-  };
-
-  const searchOnServer = async (term) => {
-    setSearchTerm(term);
-    setCurrentPage(1); // Reset to first page when search changes
-    await fetchPageFromServer(1); // Fetch new data
-  };
-
-  const sortOnServer = async (key, direction) => {
-    setSortConfig({ key, direction });
-    setCurrentPage(1); // Reset to first page when sort changes
-    await fetchPageFromServer(1); // Fetch new data
-  };
-
   return (
     <TableComponent
-      data={pagedData}
-      columns={/* ... */}
-      totalItems={totalItems}
-      currentPage={currentPage}
-      onPageChange={fetchPageFromServer}
-      searchTerm={searchTerm}
-      onSearch={searchOnServer}
-      sortConfig={sortConfig}
-      onSort={sortOnServer}
+      data={data}
+      columns={columns}
     />
   );
 }
 ```
 
-In this example:
-- `fetchPageFromServer` makes an API call to fetch data for a specific page, search term, and sort configuration. It updates the component state with the new data, total item count, and current page.
-- `searchOnServer` updates the search term state and fetches the first page of data with the new search applied.
-- `sortOnServer` updates the sort configuration state and fetches the first page of data with the new sort applied.
+## Client-Side Features
 
-The `TableComponent` is provided with the current state values and these callback functions. It will call these functions when the user interacts with the pagination, search or sort controls, allowing the server to handle these operations.
+### Pagination
 
-When the `onPageChange`, `onSearch` and `onSort` props are provided, the table assumes the data is paginated, filtered and sorted server-side. The component will call these callbacks when the relevant events occur.
+The table handles client-side pagination automatically when you specify `itemsPerPage`:
+
+```tsx
+<TableComponent
+  data={largeDataset}
+  columns={columns}
+  itemsPerPage={10}
+/>
+```
+
+### Sorting
+
+Enable sorting by marking columns as sortable:
+
+```tsx
+const columns = [
+  { key: 'name', header: 'Name', sortable: true },
+  { key: 'age', header: 'Age', sortable: true },
+];
+```
+
+### Searching
+
+The table includes built-in search functionality that filters across all columns:
+
+```tsx
+<TableComponent
+  data={data}
+  columns={columns}
+  hideSearch={false} // Enable search
+/>
+```
+
+## Server-Side Features
+
+### Server-Side Pagination
+
+```tsx
+function MyComponent() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const fetchPage = async (page) => {
+    const response = await fetch(`/api/data?page=${page}`);
+    const { data, total } = await response.json();
+    setTotalItems(total);
+    return data;
+  };
+
+  return (
+    <TableComponent
+      data={data}
+      columns={columns}
+      currentPage={currentPage}
+      totalItems={totalItems}
+      onPageChange={(page) => {
+        setCurrentPage(page);
+        fetchPage(page);
+      }}
+    />
+  );
+}
+```
+
+### Server-Side Sorting
+
+```tsx
+<TableComponent
+  data={data}
+  columns={columns}
+  sortConfig={{ key: 'name', direction: 'asc' }}
+  onSort={(key, direction) => {
+    fetchSortedData(key, direction);
+  }}
+/>
+```
+
+### Server-Side Search
+
+```tsx
+<TableComponent
+  data={data}
+  columns={columns}
+  searchTerm={searchTerm}
+  onSearch={(term) => {
+    fetchSearchResults(term);
+  }}
+/>
+```
+
+## Advanced Features
 
 ### Expandable Rows
 
-The table comes with a built-in `ExpandableContent` component that provides a consistent and styled way to display expanded row content.
-
-```jsx
-import { ExpandableContent } from './components';
-
-function MyComponent() {
-  const expandableContent = async (row) => {
+```tsx
+<TableComponent
+  data={data}
+  columns={columns}
+  expandableContent={async (row) => {
+    const details = await fetchRowDetails(row.id);
     return (
-      <ExpandableContent
-        title="User Details"
-        sections={[
-          { label: "Name", value: row.name },
-          { label: "Email", value: row.email },
-          { label: "Phone", value: row.phone },
-          { label: "Role", value: row.role },
-          // Use span: "full" for full-width sections
-          { label: "Address", value: row.address, span: "full" },
-          { label: "Notes", value: row.notes, span: "full" }
-        ]}
-        actions={
-          <>
-            <button className="rbc-px-4 rbc-py-2 rbc-text-gray-600 rbc-bg-gray-100 rbc-rounded-lg hover:rbc-bg-gray-200">
-              View Details
-            </button>
-            <button className="rbc-px-4 rbc-py-2 rbc-text-white rbc-bg-blue-600 rbc-rounded-lg hover:rbc-bg-blue-700">
-              Edit User
-            </button>
-          </>
-        }
-      />
+      <div>
+        <h3>Details for {row.name}</h3>
+        <pre>{JSON.stringify(details, null, 2)}</pre>
+      </div>
     );
-  };
+  }}
+/>
+```
+
+### Row Selection
+
+```tsx
+function MyComponent() {
+  const [selectedRows, setSelectedRows] = useState(new Set());
 
   return (
     <TableComponent
-      data={users}
-      columns={[
-        { key: 'name', header: 'Name' },
-        { key: 'email', header: 'Email' },
-        { key: 'role', header: 'Role' },
-      ]}
-      expandableContent={expandableContent}
+      data={data}
+      columns={columns}
+      enableRowSelection
+      selectedRows={selectedRows}
+      setSelectedRows={setSelectedRows}
     />
   );
 }
 ```
 
-The `ExpandableContent` component accepts the following props:
+### Custom Action Menu
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `title` | `string` | No | Optional title for the expanded section |
-| `sections` | `{ label: string; value: string \| number; span?: 'full' \| 'half'; }[]` | Yes | Array of data sections to display |
-| `actions` | `React.ReactNode` | No | Optional actions to display at the bottom |
-
-Each section can be either half-width (default) or full-width by setting the `span` property to `"full"`. This allows you to organize your data effectively, with shorter fields like name and email taking up half the width, while longer fields like addresses or descriptions spanning the full width.
-
-### Row Selection & Actions
-
-```jsx
+```tsx
 <TableComponent
-  data={users}
-  columns={/* ... */}
-  enableRowSelection
+  data={data}
+  columns={columns}
   renderActionMenu={(row) => (
-    <div>
-      <button onClick={() => editUser(row)}>Edit</button>
-      <button onClick={() => deleteUser(row)}>Delete</button>
+    <div className="rbc-flex rbc-gap-2">
+      <button onClick={() => editRow(row)}>Edit</button>
+      <button onClick={() => deleteRow(row)}>Delete</button>
     </div>
   )}
 />
 ```
 
-With `enableRowSelection`, checkboxes will appear for each row. The `renderActionMenu` prop allows rendering custom action controls for each row.
-
 ### Empty State
 
-```jsx
+```tsx
 <TableComponent
   data={[]}
-  columns={/* ... */}
-  emptyStateMessage="No products found"  
-  emptyStateDescription="Try adjusting your filters or add a new product."
-  onAddNew={navigateToCreateProduct}
+  columns={columns}
+  emptyStateMessage="No data found"
+  emptyStateDescription="Try adjusting your filters or add a new item"
+  onAddNew={() => showAddForm()}
+  addNewButtonLabel="Add Item"
 />
 ```
 
-When the `data` prop is an empty array, a customizable empty state will be shown. An optional "Add New" button can be displayed with custom text.
+## Props
+
+### Required Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `data` | `T[]` | Array of data to display in the table |
+| `columns` | `Column<T>[]` | Array of column definitions |
+
+### Optional Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `itemsPerPage` | `number` | `10` | Number of items per page |
+| `enableRowSelection` | `boolean` | `false` | Enable checkbox selection |
+| `currentPage` | `number` | `1` | Current page number |
+| `totalItems` | `number` | - | Total number of items (for server-side pagination) |
+| `loading` | `boolean` | `false` | Show loading state |
+| `hideSearch` | `boolean` | `true` | Hide the search input |
+| `searchTerm` | `string` | - | Controlled search term |
+| `sortConfig` | `SortConfig<T>` | - | Current sort configuration |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `onSort` | `(key: keyof T, direction: 'asc' \| 'desc') => void` | - | Sort callback |
+| `onSearch` | `(term: string) => void` | - | Search callback |
+| `onRowClick` | `(row: T) => void` | - | Row click callback |
+| `expandableContent` | `(row: T) => Promise<ReactNode>` | - | Async function to get expanded content |
+| `renderActionMenu` | `(row: T) => ReactNode` | - | Render custom action menu |
+| `onAddNew` | `() => void` | - | Add new item callback |
+| `addNewButtonLabel` | `string` | `'افزودن'` | Add new button text |
+| `emptyStateMessage` | `string` | `'داده‌ای یافت نشد'` | Empty state message |
+| `emptyStateDescription` | `string` | `'هیچ داده‌ای برای نمایش وجود ندارد'` | Empty state description |
+
+## Types
+
+### Column Definition
+
+```typescript
+interface Column<T> {
+  key: keyof T | string;
+  header: string;
+  sortable?: boolean;
+  render?: (row: T) => React.ReactNode;
+}
+```
+
+### Sort Configuration
+
+```typescript
+interface SortConfig<T> {
+  key: keyof T | null;
+  direction: 'asc' | 'desc';
+}
+```
+
+## Accessibility
+
+The Table Component follows accessibility best practices:
+
+- Proper ARIA labels and roles
+- Keyboard navigation support
+- Focus management
+- Screen reader friendly markup
+
+## RTL Support
+
+The table fully supports RTL layouts. All you need to do is wrap it in an RTL container:
+
+```tsx
+<div dir="rtl">
+  <TableComponent data={data} columns={columns} />
+</div>
+```
+
+## Performance
+
+The Table Component is optimized for performance:
+
+- Uses React.memo for optimized re-renders
+- Implements virtualization for large datasets
+- Memoizes expensive calculations
+- Debounces search input
+- Uses CSS variables for efficient theme updates
+
+## Contributing
+
+Guidelines for contributing to the Table Component:
+
+1. Fork the repository
+2. Create your feature branch
+3. Make your changes
+4. Write tests
+5. Submit a pull request

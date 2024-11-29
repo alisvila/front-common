@@ -3,7 +3,7 @@ import Accordion from '.';
 import { CreditCard, Lock, Settings, User, Bell, Mail } from 'lucide-react';
 
 const meta = {
-  title: 'Components/Accordion',
+  title: 'Components/RBC-Base/Accordion',
   component: Accordion,
   parameters: {
     layout: 'centered',

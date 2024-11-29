@@ -3,7 +3,7 @@ import ExpandableCompact from './ExpandableCompact';
 import TableComponentent from "../../rbc-base/DataTable"
 
 const meta: Meta<typeof ExpandableCompact> = {
-  title: 'Components/ExpandableCompact',
+  title: 'Components/RBC-System/Card',
   component: ExpandableCompact,
   parameters: {
     layout: 'padded',

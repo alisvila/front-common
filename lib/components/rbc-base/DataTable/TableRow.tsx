@@ -38,15 +38,36 @@ export function TableRow<T>({
   onRowClick,
   onSelectRow,
 }: TableRowProps<T>) {
+  const baseStyles = {
+    backgroundColor:
+      index % 2 === 0 ? "var(--rbc-table-stripe)" : "var(--rbc-bg-primary)",
+    color: "var(--rbc-text-primary)",
+    borderBottom: "1px solid var(--rbc-table-border)",
+  };
+
+  const hoverStyles = expandableContent
+    ? {
+        cursor: "pointer",
+        ":hover": {
+          backgroundColor: "var(--rbc-table-row-hover)",
+        },
+      }
+    : {};
+
   return (
     <tr
       onClick={onRowClick}
-      className={`${index % 2 === 0 ? "rbc-bg-gray-50" : "rbc-bg-white"} ${
-        expandableContent ? "hover:rbc-bg-gray-100 rbc-cursor-pointer" : ""
-      }`}
+      style={{
+        ...baseStyles,
+        ...hoverStyles,
+      }}
+      className="hover:rbc-bg-gray-100"
     >
       {enableRowSelection && (
-        <td className="rbc-p-4 rbc-border-b">
+        <td
+          className="rbc-p-4"
+          style={{ borderColor: "var(--rbc-table-border)" }}
+        >
           <input
             type="checkbox"
             checked={isSelected}
@@ -55,22 +76,33 @@ export function TableRow<T>({
           />
         </td>
       )}
-      
+
       {columns.map((column) => (
         <td
           key={column.key.toString()}
-          className="rbc-px-6 rbc-py-4 rbc-text-sm rbc-text-gray-700 rbc-border-b"
+          className="rbc-px-6 rbc-py-4 rbc-text-sm"
+          style={{
+            borderColor: "var(--rbc-table-border)",
+            color: "var(--rbc-text-primary)",
+          }}
         >
           {/* Use render function if provided, otherwise fall back to default value access */}
-          {column.render 
+          {column.render
             ? column.render(item)
-            : (item[column.key] != null ? String(item[column.key]) : '')
-          }
+            : item[column.key] != null
+            ? String(item[column.key])
+            : ""}
         </td>
       ))}
 
       {renderActionMenu && (
-        <td className="rbc-px-6 rbc-py-4 rbc-text-sm rbc-text-gray-700 rbc-border-b">
+        <td
+          className="rbc-px-6 rbc-py-4 rbc-text-sm"
+          style={{
+            borderColor: "var(--rbc-table-border)",
+            color: "var(--rbc-text-primary)",
+          }}
+        >
           {renderActionMenu(item)}
         </td>
       )}
@@ -82,6 +114,7 @@ export function TableRow<T>({
           ) : (
             <ChevronDown
               size={20}
+              style={{ color: "var(--rbc-text-secondary)" }}
               className={`rbc-transition-transform ${
                 isExpanded ? "rbc-rotate-180" : ""
               }`}

@@ -3,7 +3,7 @@ import Tabs from '.';
 import { Home, User, Settings, Mail, Bell, Lock } from 'lucide-react';
 
 const meta = {
-  title: 'Components/Tabs',
+  title: 'Components/RBC-System/Tabs',
   component: Tabs,
   parameters: {
     layout: 'centered',

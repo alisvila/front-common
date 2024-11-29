@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import MultiSelectWithInfiniteScroll from '.';
 
 const meta: Meta<typeof MultiSelectWithInfiniteScroll> = {
-  title: 'Components/MultiSelectWithInfiniteScroll',
+  title: 'Components/RBC-Base/Select',
   component: MultiSelectWithInfiniteScroll,
   parameters: {
     layout: 'padded',

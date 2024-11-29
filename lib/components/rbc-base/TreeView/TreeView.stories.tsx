@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 const meta = {
-  title: 'Components/TreeView',
+  title: 'Components/RBC-Base/TreeView',
   component: TreeView,
   parameters: {
     layout: 'centered',

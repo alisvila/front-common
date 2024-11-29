@@ -200,13 +200,15 @@ function TableComponent<T extends Record<string, any>>({
   }
 
   return (
-    <div
-      dir="rtl"
-    >
+    <div dir="rtl" className="rbc-table-wrapper" style={{ backgroundColor: 'var(--rbc-bg-primary)' }}>
 
       {loading && <LoadingSpinner />}
 
-      <div className="rbc-overflow-x-auto rbc-rounded-lg rbc-border rbc-border-gray-200">
+      <div className="rbc-overflow-x-auto rbc-rounded-lg rbc-border rbc-border-gray-200" style={{ 
+        borderColor: 'var(--rbc-table-border)',
+        borderWidth: '1px',
+        borderStyle: 'solid'
+      }}>
         <table className="rbc-min-w-full rbc-divide-y rbc-divide-gray-200">
           <TableHeader
             columns={columns}
@@ -240,7 +242,10 @@ function TableComponent<T extends Record<string, any>>({
               </tr>
             </tbody>
           ) : (
-            <tbody className="rbc-bg-white rbc-divide-y rbc-divide-gray-200">
+<tbody className="rbc-divide-y" style={{ 
+              backgroundColor: 'var(--rbc-bg-primary)',
+              borderColor: 'var(--rbc-table-border)' 
+            }}>
               {paginatedData.map((item, index) => (
                 <React.Fragment key={index}>
                   <TableRow
@@ -266,7 +271,11 @@ function TableComponent<T extends Record<string, any>>({
                           (expandableContent ? 1 : 0)
                         }
                       >
-                        <div className="rbc-p-4 rbc-bg-gray-50 rbc-border-t rbc-border-gray-200">
+                        <div className="rbc-p-4" style={{ 
+                          backgroundColor: 'var(--rbc-bg-secondary)',
+                          borderColor: 'var(--rbc-table-border)',
+                          borderTopWidth: '1px'
+                        }}>
                           {expandedContent[index]}
                         </div>
                       </td>

@@ -1,14 +1,141 @@
-// TableComponent.stories.tsx
-import type { Meta, StoryObj } from "@storybook/react";
-import TableComponent from ".";
-import DataTable from "./TableWrapperComponent";
-import DataTableAlt from "./TableWrapperAlt";
+import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+import TableComponent from './index';
+import DataTable from './TableWrapperComponent';
+import DataTableAlt from './TableWrapperAlt';
+import { Bell, Check, X } from 'lucide-react';
 
 const meta: Meta<typeof TableComponent> = {
-  title: "Components/TableComponent",
+  title: 'Components/RBC-Base/Table',
   component: TableComponent,
   parameters: {
-    layout: "padded",
+    layout: 'padded',
+    // Enable automatic documentation generation
+    docs: {
+      description: {
+        component: 'A feature-rich, customizable table component for React applications.',
+      },
+    },
+  },
+  // Tag component for better organization
+  tags: ['autodocs'],
+  // Define argTypes for better control panel organization
+  argTypes: {
+    // Data Props
+    data: {
+      description: 'The data to display in the table',
+      control: 'object',
+      table: {
+        type: { summary: 'array' },
+        category: 'Data',
+      },
+    },
+    columns: {
+      description: 'Column definitions for the table',
+      control: 'object',
+      table: {
+        type: { summary: 'array' },
+        category: 'Data',
+      },
+    },
+    // Pagination Props
+    itemsPerPage: {
+      description: 'Number of items to display per page',
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: 10 },
+        category: 'Pagination',
+      },
+    },
+    currentPage: {
+      description: 'Current page number (for controlled pagination)',
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
+        category: 'Pagination',
+      },
+    },
+    totalItems: {
+      description: 'Total number of items (for server-side pagination)',
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
+        category: 'Pagination',
+      },
+    },
+    // Feature Flags
+    enableRowSelection: {
+      description: 'Enable checkbox selection for rows',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false },
+        category: 'Features',
+      },
+    },
+    hideSearch: {
+      description: 'Hide the search functionality',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: true },
+        category: 'Features',
+      },
+    },
+    loading: {
+      description: 'Show loading state',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false },
+        category: 'State',
+      },
+    },
+    // Event Handlers
+    onPageChange: {
+      description: 'Callback when page changes',
+      table: {
+        type: { summary: '(page: number) => void' },
+        category: 'Events',
+      },
+    },
+    onSort: {
+      description: 'Callback when sorting changes',
+      table: {
+        type: { summary: '(key: string, direction: "asc" | "desc") => void' },
+        category: 'Events',
+      },
+    },
+    onSearch: {
+      description: 'Callback when search term changes',
+      table: {
+        type: { summary: '(term: string) => void' },
+        category: 'Events',
+      },
+    },
+    onRowClick: {
+      description: 'Callback when a row is clicked',
+      table: {
+        type: { summary: '(row: any) => void' },
+        category: 'Events',
+      },
+    },
+    // Customization Props
+    renderActionMenu: {
+      description: 'Render custom actions for each row',
+      table: {
+        type: { summary: '(row: any) => ReactNode' },
+        category: 'Customization',
+      },
+    },
+    expandableContent: {
+      description: 'Render expandable content for each row',
+      table: {
+        type: { summary: '(row: any) => Promise<ReactNode>' },
+        category: 'Customization',
+      },
+    },
   },
 };
 

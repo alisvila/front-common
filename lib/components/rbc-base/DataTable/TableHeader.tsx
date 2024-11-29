@@ -25,27 +25,51 @@ export function TableHeader<T>({
   onSort,
   onSelectAll,
 }: TableHeaderProps<T>) {
+  const headerStyles = {
+    backgroundColor: 'var(--rbc-table-header-bg)',
+    borderBottom: '1px solid var(--rbc-table-border)',
+    color: 'var(--rbc-text-secondary)',
+  };
+
+  const cellStyles = {
+    padding: '1rem 1.5rem',
+    textAlign: 'left' as const,
+    fontSize: '0.75rem',
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.05em',
+    borderBottom: '1px solid var(--rbc-table-border)',
+  };
+
+  const checkboxStyles = {
+    width: '1rem',
+    height: '1rem',
+    borderRadius: '0.25rem',
+    borderColor: 'var(--rbc-border-color)',
+    color: 'var(--rbc-primary)',
+  };
+
   return (
     <thead>
-      <tr className="rbc-bg-gray-50">
+      <tr style={headerStyles}>
         {enableRowSelection && (
-          <th style={{background: "#e9f1f9"}} className="rbc-p-4 rbc-border-b">
+          <th style={{ ...cellStyles, padding: '1rem' }}>
             <div className="rbc-flex rbc-items-center rbc-gap-2">
               <input
                 type="checkbox"
                 checked={selectedRows.size === totalRows}
                 onChange={() => onSelectAll(selectedRows.size !== totalRows)}
-                className="rbc-w-4 rbc-h-4 rbc-rounded rbc-border-gray-300 rbc-text-blue-600 focus:rbc-ring-blue-500"
+                className="rbc-rounded focus:rbc-ring-2 focus:rbc-ring-offset-2"
+                style={checkboxStyles}
               />
             </div>
           </th>
         )}
+        
         {columns.map((column) => (
-          // TODO: change color to tailwind color!!
           <th
             key={column.key.toString()}
-            style={{background: "#e9f1f9"}}
-            className="rbc-px-6 rbc-py-4 rbc-text-left rbc-text-xs rbc-font-semibold rbc-text-gray-600 rbc-uppercase rbc-tracking-wider rbc-border-b"
+            style={cellStyles}
           >
             <div className="rbc-flex rbc-items-center rbc-gap-2">
               {column.sortable && (
@@ -55,19 +79,23 @@ export function TableHeader<T>({
                   onSort={onSort}
                 />
               )}
-              {column.header}
+              <span>{column.header}</span>
             </div>
           </th>
         ))}
+
         {renderActionMenu && (
-          <th style={{background: "#e9f1f9"}} className="rbc-px-6 rbc-py-4 rbc-text-left rbc-text-xs rbc-font-semibold rbc-text-gray-600 rbc-uppercase rbc-tracking-wider rbc-border-b">
+          <th style={cellStyles}>
             <div className="rbc-flex rbc-items-center rbc-gap-2">
               عملیات
             </div>
           </th>
         )}
+
         {expandableContent && (
-          <th style={{background: "#e9f1f9"}} className="rbc-px-6 rbc-py-4 rbc-text-left rbc-text-xs rbc-font-semibold rbc-text-gray-600 rbc-uppercase rbc-tracking-wider rbc-border-b" />
+          <th style={cellStyles}>
+            <div className="rbc-flex rbc-items-center rbc-gap-2" />
+          </th>
         )}
       </tr>
     </thead>

@@ -1,4 +1,4 @@
-import MultiSelectWithInfiniteScroll from "@lib/components/rbc-base/SelectWithInfScroll";
+import MultiSelectWithInfiniteScroll from "@lib/components/rbc-base/Select";
 import { Field } from "./Field";
 import { BaseFieldProps } from "./types";
 

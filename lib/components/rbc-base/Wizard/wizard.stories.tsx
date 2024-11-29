@@ -3,7 +3,7 @@ import Wizard from '.';
 import React from 'react';
 
 const meta: Meta<typeof Wizard> = {
-  title: 'Components/Wizard',
+  title: 'Components/RBC-System/Wizard',
   component: Wizard,
   parameters: {
     layout: 'padded',

@@ -1,0 +1,67 @@
+/* Base Button */
+--rbc-button-radius
+--rbc-button-font-family
+
+/* Primary Variant */
+--rbc-button-primary-bg
+--rbc-button-primary-text
+--rbc-button-primary-hover-bg
+--rbc-button-primary-focus-ring
+
+/* Secondary Variant */
+--rbc-button-secondary-bg
+--rbc-button-secondary-text
+--rbc-button-secondary-hover-bg
+--rbc-button-secondary-focus-ring
+
+/* Outline Variant */
+--rbc-button-outline-border
+--rbc-button-outline-text
+--rbc-button-outline-hover-bg
+--rbc-button-outline-focus-ring
+
+/* Size Variables */
+--rbc-button-sm-font-size
+--rbc-button-sm-padding
+--rbc-button-sm-gap
+--rbc-button-md-font-size
+--rbc-button-md-padding
+--rbc-button-md-gap
+--rbc-button-lg-font-size
+--rbc-button-lg-padding
+--rbc-button-lg-gap
+--rbc-button-icon-padding
+
+
+================================
+
+
+/* Base Badge */
+--rbc-badge-radius
+--rbc-badge-font-family
+
+/* Variant-specific variables */
+--rbc-badge-default-bg
+--rbc-badge-default-text
+--rbc-badge-default-border
+
+--rbc-badge-primary-bg
+--rbc-badge-primary-text
+--rbc-badge-primary-border
+
+/* ... similar for other variants */
+
+/* Size-specific variables */
+--rbc-badge-sm-font-size
+--rbc-badge-sm-padding
+--rbc-badge-sm-gap
+
+--rbc-badge-md-font-size
+--rbc-badge-md-padding
+--rbc-badge-md-gap
+
+--rbc-badge-lg-font-size
+--rbc-badge-lg-padding
+--rbc-badge-lg-gap
+
+================================
