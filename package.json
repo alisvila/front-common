@@ -1,7 +1,7 @@
 {
   "name": "rbc-design-system",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.2.1",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://git.rayanbourse.ir/ui/front-commoncomponent"
+    "url": ""
   },
   "scripts": {
     "dev": "vite",
@@ -21,28 +21,32 @@
     "clean": "rimraf dist/*",
     "pack": "npm pack --pack-destination='./dist'",
     "build": "tsc --p ./tsconfig-build.json && vite build",
-    "build:css": "tailwindcss -m -i ./src/tailwind-entry.css -o ./dist/styles.css",
+    "build:css": "tailwindcss -m -i ./lib/globals.css -o ./dist/styles.css",
     "tar": "npm run clean && npm run build && npm run pack",
-    "storybook": "storybook dev -p 6006",
-    "storybook:css": "tailwindcss -w -i ./src/tailwind-entry.css -o ./src/index.css",
+    "storybook": "storybook",
+    "storybook:dev": "storybook dev -p 6006",
+    "storybook:css": "tailwindcss -w -i ./lib/globals.css -o ./dist/styles.css",
     "build-storybook": "npm run build-storybook:css && npm run storybook build",
-    "build-storybook:css": "tailwindcss -m -i ./src/tailwind-entry.css -o ./src/index.css",
+    "build-storybook:css": "tailwindcss -m -i ./lib/globals.css -o ./dist/styles.css",
     "test": "vitest"
   },
-  "prepublishOnly": "npm run tar",
+  "prepublish": "npm run tar",
   "peerDependencies": {
+    "@headlessui/react": "^2.0.0",
     "axios": "^1.7.0 || ^0.29.0",
     "next": "^14.2.0 || ^15.0.0",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-date-object": "^2.0.0",
-    "react-icons": "^4.0.0",
-    "@headlessui/react": "^2.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-icons": "^4.0.0"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.453.0",
+    "moment-jalaali": "^0.10.4",
+    "react-datepicker": "^7.5.0",
     "react-resizable-panels": "^2.1.5",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"

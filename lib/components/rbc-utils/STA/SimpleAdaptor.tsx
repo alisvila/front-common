@@ -45,7 +45,7 @@ export interface ResponseWithPagination<T> {
 }
 
 // TableAdapter.tsx
-import TableComponent from '@lib/components/rbc-base/DataTable';
+import {TableComponent} from '@lib/components/rbc-system/Table';
 import { ConvertHeaders } from './ConvertHeaders';
 
 export function SimpleAdaptor<T extends WithCount>(

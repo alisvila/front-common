@@ -29,7 +29,7 @@ this command create necessary files in path: `lib/components/<component name>`
 to browse available components run storybook
 
 ```bash
-pnpm run storybook
+pnpm run storybook:Dev
 ```
 ## how to build
 to build for next environment it should be build and pack. without pack it doesn't work on next environment

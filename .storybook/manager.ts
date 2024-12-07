@@ -5,10 +5,10 @@ const theme = create({
   base: 'light',
   
   // Brand
-  brandTitle: 'Your Component Library',
-  brandUrl: 'https://your-website.com',
-  brandImage: '/your-logo.png', // Add your logo here
-  brandTarget: '_self',
+  brandTitle: 'RBC Design Ssytem',
+  // brandUrl: 'https://your-website.com',
+  // brandImage: '/your-logo.png', // Add your logo here
+  // brandTarget: '_self',
 
   // UI
   appBg: '#F9FAFB',

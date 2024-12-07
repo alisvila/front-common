@@ -1,0 +1,20 @@
+# Build stage
+FROM node:20.18.0-alpine as builder
+
+WORKDIR /app
+RUN apk add --no-cache git
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run tar
+
+FROM node:20.18.0-alpine
+
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+RUN npm ci --only=production
+COPY docker-npm-auth.sh /usr/local/bin/docker-npm-auth
+RUN chmod +x /usr/local/bin/docker-npm-auth
+
+ENTRYPOINT ["/usr/local/bin/docker-npm-auth"]

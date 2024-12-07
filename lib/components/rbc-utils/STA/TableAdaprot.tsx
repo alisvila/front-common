@@ -1,5 +1,5 @@
 // types.ts
-interface DetailComponentProps<T> {
+export interface DetailComponentProps<T> {
   id?: number | string;
   data?: T;
 }
@@ -12,12 +12,12 @@ export interface SortableHeaderItem {
   component?: (item: any) => JSX.Element;
 }
 
-interface WithCount {
+export interface WithCount {
   count: number;
   id: number | string;
 }
 
-interface MySortableTableProps<T> {
+interface MySortableTableProps<T> extends Partial<TableProps<T>>{
   headers: SortableHeaderItem[];
   dataHook: any;
   objectID?: string | number;
@@ -60,11 +60,11 @@ export interface ResponseWithPagination<T> {
   results: T[];
 }
 
-// TableAdapter.tsx
 import React, { useState, useMemo, useEffect } from "react";
 import { ConvertHeaders } from "./ConvertHeaders";
 import useSearchParamsWrapper from "@lib/components/rbc-react/hooks/useSearchParamsWrapper";
-import TableComponent from "@lib/components/rbc-base/DataTable";
+import {TableComponent} from "@lib/components/rbc-system/Table";
+import { TableProps } from "@lib/components/rbc-system/Table/types";
 
 export function TableAdapter<T extends WithCount>({
   headers,
@@ -72,6 +72,7 @@ export function TableAdapter<T extends WithCount>({
   objectID,
   dataHookProps,
   DetailComponent,
+  ...props
 }: MySortableTableProps<T>) {
   const { setObject, getAll } = useSearchParamsWrapper();
   const [pageIndex, setPageIndex] = useState(1);
@@ -184,9 +185,10 @@ export function TableAdapter<T extends WithCount>({
       onSort={handleSort}
       sortConfig={sortConfig}
       expandableContent={expandableContent}
-      itemsPerPage={Number(process.env.NEXT_PUBLIC_PAGE_LIMIT ?? 10)}
+      itemsPerPage={Number(10)}
       emptyStateMessage="داده‌ای یافت نشد"
       emptyStateDescription="هیچ داده‌ای برای نمایش وجود ندارد"
+      {...props}
     />
   );
 }

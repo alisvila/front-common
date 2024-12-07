@@ -1,0 +1,171 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as IconGroupStories from './IconGroup.stories';
+import IconGroup from '.';
+
+<Meta of={IconGroupStories} />
+
+# IconGroup
+
+The IconGroup component is a flexible and reusable component for grouping icon buttons together. It's commonly used for navigation bars, toolbars, and theme switchers.
+
+## Features
+
+- 🎨 Themeable using the RBC theme system
+- 📱 Responsive and mobile-friendly
+- 🔄 Supports row and row-reverse directions
+- 🎯 Tooltip support
+- 📏 Multiple size options
+- 🎮 Interactive state management
+
+## Installation
+
+```bash
+import { IconGroup } from 'rbc-design-system';
+```
+
+## Basic Usage
+
+```tsx
+import { Sun, Moon, Settings } from 'lucide-react';
+
+const ThemeSwitcher = () => {
+  const [theme, setTheme] = useState('light');
+  
+  const items = [
+    { icon: Sun, value: 'light', tooltip: 'Light Theme' },
+    { icon: Moon, value: 'dark', tooltip: 'Dark Theme' },
+    { icon: Settings, value: 'system', tooltip: 'System Theme' },
+  ];
+
+  return (
+    <IconGroup
+      items={items}
+      value={theme}
+      onChange={setTheme}
+    />
+  );
+};
+```
+
+## Props
+
+
+## Examples
+
+### Theme Switcher
+
+A common use case for IconGroup is a theme switcher:
+
+<Canvas of={IconGroupStories.ThemeSwitcher} />
+
+### Navigation
+
+IconGroup can be used for navigation:
+
+<Canvas of={IconGroupStories.Navigation} />
+
+### Different Directions
+
+The component supports both row and row-reverse directions:
+
+<Canvas of={IconGroupStories.RowReverse} />
+
+### Size Variants
+
+IconGroup comes in three sizes: sm, md, and lg:
+
+<Canvas of={IconGroupStories.Sizes} />
+
+### Custom Styling
+
+The component can be customized using className prop:
+
+<Canvas of={IconGroupStories.CustomStyling} />
+
+### Interactive Example
+
+A fully interactive example showing state management:
+
+<Canvas of={IconGroupStories.Interactive} />
+
+## Best Practices
+
+1. **Accessibility**
+   - Always provide tooltips for icon-only buttons
+   - Ensure sufficient contrast for active/inactive states
+   - Consider keyboard navigation
+
+2. **Responsive Design**
+   - Use appropriate sizes for different screen sizes
+   - Consider touch targets on mobile devices
+
+3. **State Management**
+   - Keep state at the appropriate level
+   - Use controlled components when needed
+   - Handle state updates efficiently
+
+4. **Theming**
+   - Use theme variables for consistent styling
+   - Test in both light and dark themes
+   - Ensure proper contrast in all states
+
+## Customization
+
+### Custom Styling
+
+You can customize the appearance using className:
+
+```tsx
+<IconGroup
+  className="rbc-bg-blue-100 rbc-shadow-lg"
+  // ... other props
+/>
+```
+
+### Theme Integration
+
+The component uses the following theme variables:
+
+```css
+--rbc-bg-primary
+--rbc-text-primary
+--rbc-primary
+--rbc-primary-hover
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Icons not aligned properly**
+   - Ensure all icons have the same viewBox
+   - Use consistent icon sizes
+
+2. **Tooltip not showing**
+   - Verify tooltip text is provided
+   - Check for CSS conflicts
+
+3. **State not updating**
+   - Verify onChange handler is provided
+   - Check if value prop is passed correctly
+
+## API Reference
+
+### IconGroupProps
+
+```typescript
+interface IconGroupProps {
+  items: IconGroupItem[];
+  value?: string;
+  onChange?: (value: string) => void;
+  direction?: 'row' | 'row-reverse';
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+interface IconGroupItem {
+  icon: LucideIcon;
+  value: string;
+  tooltip?: string;
+}
+```

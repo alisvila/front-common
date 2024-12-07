@@ -1,0 +1,111 @@
+pipeline {
+    agent {
+        node {
+            label 'python-projects-main'
+        }
+    }
+    
+    environment {
+        DOCKER_BUILDKIT = '1'
+        REGISTRY = 'registry.rayanbourse.ir'
+        IMAGE_NAME = 'rbc-design-system-storybook'
+        BUILD_NUMBER = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Storybook Image') {
+            steps {
+                script {
+                    docker.build("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}", "-f ./Dockerfile.storybook .")
+                }
+            }
+        }
+
+        stage('Push Image') {
+            when {
+                expression { 
+                    return env.BRANCH_NAME in ['dev', 'staging', 'master'] 
+                }
+            }
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY}", 'RayanRegistryCreds') {
+                        def image = docker.image("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}")
+                        image.push()
+                        image.push("latest")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to K8s') {
+            when {
+                expression { 
+                    return env.BRANCH_NAME in ['dev', 'staging', 'master'] 
+                }
+            }
+            steps {
+                // K8s config!
+            }
+        }
+            stage('Build images') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
+        if (env.BRANCH_NAME in deployable_branch_names) {
+            withCredentials([string(credentialsId: 'SENTRY_TOKEN', variable: 'SENTRY_TOKEN')]) {
+                frontend_image = docker.build("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}", "-f ./Dockerfile.storybook .")
+            }
+        }
+        
+    }
+
+    stage('Push images') {
+        /* Finally, we'll push the image with two tags:
+         * First, the incremental build number from Jenkins
+         * Second, the 'latest' tag.
+         * Pushing multiple tags is cheap, as all the layers are reused. */
+        if (env.BRANCH_NAME in deployable_branch_names) {
+            docker.withRegistry('https://registry.rayanbourse.ir', 'RayanRegistryCreds') {
+                def image = docker.image("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}")
+                image.push()
+                image.push("latest")
+            }
+        }
+    }
+
+    stage('Publish on K8s') {        
+                script {
+                    def k8sBranch = env.BRANCH_NAME == 'master' ? 'main' : 
+                                   env.BRANCH_NAME == 'staging' ? 'staging' : 'test'
+                    
+                    // Clone K8s manifests repository
+                    git branch: k8sBranch,
+                        credentialsId: '388c0885-c60c-419d-9c62-d865b635c527',
+                        url: 'https://git.rayanbourse.ir/devops_documents/k8s-manifests/sta.git'
+                    
+                    // Update image tag in deployment file
+                    sh """
+                        sed -i 's|${REGISTRY}/${IMAGE_NAME}:.*|${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}|g' STA-yamls/storybook-deployment.yaml
+                    """
+                    
+                    // Commit and push changes
+                    withCredentials([gitUsernamePassword(credentialsId: '388c0885-c60c-419d-9c62-d865b635c527', gitToolName: 'git')]) {
+                        sh """
+                            git config user.email 'jenkins@rayanbourse.ir'
+                            git config user.name 'jenkins'
+                            git add STA-yamls/storybook-deployment.yaml
+                            git commit -m 'Updated Storybook deployment with build number ${BUILD_NUMBER}'
+                            git push origin ${k8sBranch}
+                        """
+                    }
+            }
+        }
+    }
+
+    }

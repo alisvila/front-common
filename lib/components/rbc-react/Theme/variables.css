@@ -1,0 +1,28 @@
+:root {
+    /* Base colors */
+    --rbc-primary: #3B82F6;
+    --rbc-primary-hover: #2563EB;
+    --rbc-secondary: #E5E7EB;
+    --rbc-secondary-hover: #D1D5DB;
+    
+    /* Text colors */
+    --rbc-text-primary: #111827;
+    --rbc-text-secondary: #6B7280;
+    
+    /* Background colors */
+    --rbc-bg-primary: #FFFFFF;
+    --rbc-bg-secondary: #F3F4F6;
+    --rbc-bg-hover: #F9FAFB;
+    --rbc-bg-selected: #EFF6FF;
+    
+    /* Border colors */
+    --rbc-border-color: #E5E7EB;
+    
+    /* Specific component variables */
+    --rbc-table-header-bg: var(--rbc-bg-secondary);
+    --rbc-table-row-hover: var(--rbc-bg-hover);
+    --rbc-table-border: var(--rbc-border-color);
+    --rbc-table-stripe: var(--rbc-bg-secondary);
+  }
+
+  

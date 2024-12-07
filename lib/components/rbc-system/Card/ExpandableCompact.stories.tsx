@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ExpandableCompact from './ExpandableCompact';
-import TableComponentent from "../../rbc-base/DataTable"
+import {TableComponent} from "../Table"
+import {ExpandableContent} from './'
 
-const meta: Meta<typeof ExpandableCompact> = {
+const meta: Meta<typeof ExpandableContent> = {
   title: 'Components/RBC-System/Card',
-  component: ExpandableCompact,
+  component: ExpandableContent,
   parameters: {
     layout: 'padded',
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof ExpandableCompact>;
+type Story = StoryObj<typeof ExpandableContent>;
 
 
 export const DefaultRTL: Story = {
@@ -105,7 +105,7 @@ const TableUsageExample = () => {
 
   const expandableContent = async (row: any) => {
     return (
-      <ExpandableCompact
+      <ExpandableContent
         title="User Details"
         sections={[
           { label: 'Full Name', value: row.name },
@@ -130,7 +130,7 @@ const TableUsageExample = () => {
   };
 
   return (
-    <TableComponentent
+    <TableComponent
       data={mockData}
       columns={[
         { key: 'name', header: 'Name' },

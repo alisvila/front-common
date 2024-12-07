@@ -3,13 +3,15 @@ import  * as BadgeComponentStories  from '../components/rbc-base/Badge/Badge.sto
 import  Badge  from '../components/rbc-base/Badge';
 import * as ButtonComponentStories from '../components/rbc-base/Button/Button.stories';
 import Button from '../components/rbc-base/Button';
-import * as TableComponentComponentStories from '../components/rbc-base/DataTable/DataGrid.stories';
+import * as TableComponentComponentStories from '../components/rbc-system/Table/DataGrid.stories.tsx';
+import DataTable from '../components/rbc-system/Table/TableWrapperComponent.tsx';
+import {sampleData, columns, bulkActions} from './Data.ts'
 
 <Meta title="Introduction" />
 
 <div className="sb-container">
   <div className='sb-section-title'>
-    # React Component Library
+    # RBC Design System
     
     A collection of flexible, themeable React components built with TypeScript and Tailwind CSS.
   </div>
@@ -32,8 +34,7 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
       <p>Install the package and its peer dependencies:</p>
       
       ```bash
-      npm install @your-org/react-components
-      npm install tailwindcss @lucide-react
+      pnpm install rbc-design-system
       ```
     </div>
   </div>
@@ -54,7 +55,7 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
         - Expandable Rows
         - Custom Actions
         
-        [View Documentation →](/docs/components-rbc-base-table--docs)
+        [View Documentation →](/docs/components-rbc-system-table--docs)
       </div>
       
       <div className="sb-grid-item">
@@ -76,7 +77,6 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
         - Removable option
         - Size variations
 
-        <Meta of={ButtonComponentStories} />
         [View Documentation →](/docs/components-rbc-base-badge--docs)
       </div>
     </div>
@@ -87,10 +87,10 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
       ## Theme Customization
     </div>
     
-    [View Documentation →](/docs/components-themeprovider--docs)
+    [View Documentation →](/docs/components-rbc-react-themeprovider--docs)
     <div className="sb-subsection">
       ```tsx
-      import { ThemeProvider } from '@your-org/react-components';
+      import { ThemeProvider } from 'rbc-design-system';
 
       const theme = {
         primary: '#3B82F6',
@@ -109,6 +109,7 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
       ```
     </div>
   </div>
+  <Meta of={TableComponentComponentStories} name="TableWithModernFilter" />
 
   <div className="sb-section">
     <div className="sb-section-title">
@@ -117,9 +118,7 @@ import * as TableComponentComponentStories from '../components/rbc-base/DataTabl
 
     <div className="sb-subsection">
       <Canvas>
-        <Button variant="primary" icon={<span>→</span>}>
-          Get Started
-        </Button>
+        TableWithModernFilter
       </Canvas>
     </div>
   </div>

@@ -8,7 +8,8 @@ type BadgeVariant =
   | 'success' 
   | 'warning' 
   | 'danger' 
-  | 'outline';
+  | 'outline'
+  | 'info'
 
 type BadgeSize = 'sm' | 'md' | 'lg';
 
@@ -22,7 +23,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
+export const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
   (
     {
       variant = 'default',

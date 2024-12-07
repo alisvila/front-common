@@ -11,16 +11,14 @@ interface SelectProps {
   multiple?: boolean;
   searchable?: boolean;
   value?: Option | Option[];
-  onChange?: (value: Option | Option[]) => void;
   placeholder?: string;
 }
 
-const MultiSelectWithInfiniteScroll: React.FC<SelectProps> = ({
+export const Select: React.FC<SelectProps> = ({
   loadOptions,
   multiple = false,
   searchable = false,
   value,
-  onChange,
   placeholder = "Select...",
 }) => {
   const [options, setOptions] = useState<Option[]>([]);
@@ -200,4 +198,4 @@ const MultiSelectWithInfiniteScroll: React.FC<SelectProps> = ({
   );
 };
 
-export default MultiSelectWithInfiniteScroll;
+export default Select;

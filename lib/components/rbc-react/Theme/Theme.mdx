@@ -1,0 +1,281 @@
+import { Meta } from '@storybook/blocks';
+import { ThemeProvider } from './ThemeContext';
+import {TableComponent} from '../../rbc-system/Table/DataTable';
+import Button from '../../rbc-base/Button';
+import Badge from '../../rbc-base/Badge';
+
+<Meta title="Components/RBC-React/ThemeProvider" />
+
+# Theme Customization
+
+Our component library provides a flexible theming system that allows you to customize the appearance of all components through CSS variables and a ThemeProvider component.
+
+## Quick Start
+
+The fastest way to customize the theme is using the ThemeProvider:
+
+```tsx
+import { ThemeProvider } from 'rbc-design-system';
+
+function App() {
+  return (
+    <ThemeProvider initialTheme={{
+      primary: '#3B82F6',
+      'primary-hover': '#2563EB',
+      'text-primary': '#111827',
+      'bg-primary': '#FFFFFF',
+    }}>
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+```
+
+## Available Theme Variables
+
+### Base Colors
+```css
+/* Primary colors */
+--rbc-primary: #3B82F6;        /* Main brand color */
+--rbc-primary-hover: #2563EB;  /* Hover state for primary */
+--rbc-secondary: #E5E7EB;      /* Secondary color */
+--rbc-secondary-hover: #D1D5DB;/* Hover state for secondary */
+
+/* Text colors */
+--rbc-text-primary: #111827;   /* Main text color */
+--rbc-text-secondary: #6B7280; /* Secondary text color */
+
+/* Background colors */
+--rbc-bg-primary: #FFFFFF;     /* Main background */
+--rbc-bg-secondary: #F3F4F6;   /* Secondary background */
+--rbc-bg-hover: #F9FAFB;      /* Hover state background */
+--rbc-bg-selected: #EFF6FF;   /* Selected state background */
+
+/* Border colors */
+--rbc-border-color: #E5E7EB;  /* Default border color */
+```
+
+### Component-Specific Variables
+
+#### Table Component
+```css
+--rbc-table-header-bg: var(--rbc-bg-secondary);
+--rbc-table-row-hover: var(--rbc-bg-hover);
+--rbc-table-border: var(--rbc-border-color);
+--rbc-table-stripe: var(--rbc-bg-secondary);
+```
+
+#### Button Component
+```css
+--rbc-button-radius: 0.5rem;
+--rbc-button-primary-bg: var(--rbc-primary);
+--rbc-button-primary-text: white;
+--rbc-button-primary-hover-bg: var(--rbc-primary-hover);
+--rbc-button-secondary-bg: var(--rbc-secondary);
+--rbc-button-secondary-text: var(--rbc-text-primary);
+```
+
+#### Badge Component
+```css
+--rbc-badge-radius: 9999px;
+--rbc-badge-default-bg: var(--rbc-bg-secondary);
+--rbc-badge-primary-bg: var(--rbc-primary);
+--rbc-badge-primary-text: white;
+```
+
+## Usage Methods
+
+### 1. Using ThemeProvider (Recommended)
+
+Best for application-wide theming:
+
+```tsx
+import { ThemeProvider } from 'rbc-design-system';
+
+const theme = {
+  primary: '#4F46E5', // Indigo
+  'primary-hover': '#4338CA',
+  'text-primary': '#1F2937',
+  // ... other variables
+};
+
+function App() {
+  return (
+    <ThemeProvider initialTheme={theme}>
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+```
+
+### 2. CSS Variables
+
+Best for static theming or CSS-based approaches:
+
+```css
+:root {
+  --rbc-primary: #4F46E5;
+  --rbc-primary-hover: #4338CA;
+  /* ... other variables */
+}
+```
+
+### 3. Component-Level Overrides
+
+Best for specific component customization:
+
+```tsx
+function CustomPage() {
+  return (
+    <div style={{
+      '--rbc-primary': '#EC4899',
+      '--rbc-primary-hover': '#DB2777'
+    } as React.CSSProperties}>
+      <Button variant="primary">Pink Button</Button>
+    </div>
+  );
+}
+```
+
+## Theme Examples
+
+### Default Theme
+<div>
+  <Button variant="primary">Primary Button</Button>
+  <Badge variant="primary">Primary Badge</Badge>
+</div>
+
+### Custom Theme Example
+<ThemeProvider initialTheme={{
+  primary: '#4F46E5',
+  'primary-hover': '#4338CA',
+  'text-primary': '#1F2937'
+}}>
+  <div>
+    <Button variant="primary">Custom Button</Button>
+    <Badge variant="primary">Custom Badge</Badge>
+  </div>
+</ThemeProvider>
+
+## Dark Theme Example
+<ThemeProvider initialTheme={{
+  primary: '#60A5FA',
+  'primary-hover': '#3B82F6',
+  'text-primary': '#F9FAFB',
+  'text-secondary': '#D1D5DB',
+  'bg-primary': '#1F2937',
+  'bg-secondary': '#374151',
+  'border-color': '#4B5563'
+}}>
+  <div style={{ padding: '20px', backgroundColor: '#1F2937' }}>
+    <Button variant="primary">Dark Theme Button</Button>
+    <Badge variant="primary">Dark Theme Badge</Badge>
+  </div>
+</ThemeProvider>
+
+## Best Practices
+
+1. **Consistent Usage**
+   - Use the ThemeProvider at the highest appropriate level
+   - Keep theme definitions centralized
+   - Use semantic variable names
+
+2. **Variable Organization**
+   - Group variables by purpose (colors, typography, spacing)
+   - Use descriptive, consistent naming
+   - Document any custom variables
+
+3. **Responsive Design**
+   - Test theme changes across breakpoints
+   - Consider dark/light mode variations
+   - Ensure sufficient contrast ratios
+
+4. **Performance**
+   - Define variables at appropriate scope
+   - Avoid deep nesting of ThemeProviders
+   - Use CSS variables for dynamic changes
+
+## Common Patterns
+
+### Creating Component Variants
+```tsx
+function CustomButton() {
+  return (
+    <Button
+      style={{
+        '--rbc-button-primary-bg': 'linear-gradient(...)',
+        '--rbc-button-primary-hover-bg': 'linear-gradient(...)',
+      } as React.CSSProperties}
+    >
+      Gradient Button
+    </Button>
+  );
+}
+```
+
+### Dynamic Theming
+```tsx
+function ThemeToggle() {
+  const [isDark, setIsDark] = useState(false);
+  
+  const theme = isDark ? {
+    'bg-primary': '#1F2937',
+    'text-primary': '#F9FAFB',
+    // ... other dark theme values
+  } : {
+    'bg-primary': '#FFFFFF',
+    'text-primary': '#111827',
+    // ... other light theme values
+  };
+
+  return (
+    <ThemeProvider initialTheme={theme}>
+      <Button onClick={() => setIsDark(!isDark)}>
+        Toggle Theme
+      </Button>
+    </ThemeProvider>
+  );
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Variables Not Applying**
+   - Check CSS specificity
+   - Verify ThemeProvider nesting
+   - Confirm variable names
+
+2. **Inconsistent Colors**
+   - Verify color format consistency
+   - Check fallback values
+   - Test in different browsers
+
+3. **Runtime Changes Not Working**
+   - Ensure dynamic styles are applied correctly
+   - Check React component updates
+   - Verify CSS transition properties
+
+## Migration Guide
+
+If you're migrating from an older version or different styling system:
+
+1. **From Inline Styles**
+```diff
+- <Button style={{ backgroundColor: '#3B82F6' }}>
++ <ThemeProvider initialTheme={{ primary: '#3B82F6' }}>
++   <Button variant="primary">
+```
+
+2. **From CSS Classes**
+```diff
+- .custom-button { background-color: #3B82F6; }
++ :root { --rbc-primary: #3B82F6; }
+```
+
+3. **From Other Theme Systems**
+```diff
+- <ThemeProvider theme={{ colors: { primary: '#3B82F6' } }}>
++ <ThemeProvider initialTheme={{ primary: '#3B82F6' }}>
+```

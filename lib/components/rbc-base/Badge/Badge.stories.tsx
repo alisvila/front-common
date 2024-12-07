@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 import Badge from '.';
 import { Bell, Check, AlertCircle, Info } from 'lucide-react';
-import { ThemeProvider } from '../Theme/ThemeContext';
+import { ThemeProvider } from '../../rbc-react/Theme/ThemeContext';
 
 const meta: Meta<typeof Badge> = {
   title: 'Components/RBC-Base/Badge',

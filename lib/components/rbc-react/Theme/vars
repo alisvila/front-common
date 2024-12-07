@@ -1,0 +1,104 @@
+==============/* Base Button */==================
+
+/* Base Button */
+--rbc-button-radius
+--rbc-button-font-family
+
+/* Primary Variant */
+--rbc-button-primary-bg
+--rbc-button-primary-text
+--rbc-button-primary-hover-bg
+--rbc-button-primary-focus-ring
+
+/* Secondary Variant */
+--rbc-button-secondary-bg
+--rbc-button-secondary-text
+--rbc-button-secondary-hover-bg
+--rbc-button-secondary-focus-ring
+
+/* Outline Variant */
+--rbc-button-outline-border
+--rbc-button-outline-text
+--rbc-button-outline-hover-bg
+--rbc-button-outline-focus-ring
+
+/* Size Variables */
+--rbc-button-sm-font-size
+--rbc-button-sm-padding
+--rbc-button-sm-gap
+--rbc-button-md-font-size
+--rbc-button-md-padding
+--rbc-button-md-gap
+--rbc-button-lg-font-size
+--rbc-button-lg-padding
+--rbc-button-lg-gap
+--rbc-button-icon-padding
+
+==============/* Base Badge */=================
+
+/* Base Badge */
+--rbc-badge-radius
+--rbc-badge-font-family
+
+/* Variant-specific variables */
+--rbc-badge-default-bg
+--rbc-badge-default-text
+--rbc-badge-default-border
+
+--rbc-badge-primary-bg
+--rbc-badge-primary-text
+--rbc-badge-primary-border
+
+/* ... similar for other variants */
+
+/* Size-specific variables */
+--rbc-badge-sm-font-size
+--rbc-badge-sm-padding
+--rbc-badge-sm-gap
+
+--rbc-badge-md-font-size
+--rbc-badge-md-padding
+--rbc-badge-md-gap
+
+--rbc-badge-lg-font-size
+--rbc-badge-lg-padding
+--rbc-badge-lg-gap
+
+==============/* Base Tabs */==================
+
+--rbc-tabs-bg
+--rbc-tabs-border-color
+--rbc-tabs-text-active
+--rbc-tabs-text-default
+--rbc-tabs-text-hover
+--rbc-tabs-bg-active
+--rbc-tabs-bg-hover
+--rbc-tabs-shadow
+
+==============/* Base ExpandableContent Component */==================
+
+--rbc-expandable-bg           // Background color
+--rbc-expandable-border       // Border color
+--rbc-expandable-shadow      // Shadow effect
+--rbc-expandable-title-color // Title text color
+--rbc-expandable-label-color // Section label color
+--rbc-expandable-value-color // Section value color
+--rbc-expandable-section-bg  // Section background
+--rbc-expandable-divider-color // Divider color
+--rbc-expandable-accent-color  // Accent color for headers
+
+==============/* Advance filter */==================
+
+--rbc-search-bg                    // Background color
+--rbc-search-border               // Border color
+--rbc-search-text                // Primary text color
+--rbc-search-label               // Label text color
+--rbc-search-input-bg           // Input background
+--rbc-search-input-border      // Input border color
+--rbc-search-input-focus      // Input focus ring color
+--rbc-search-button-primary-bg    // Primary button background
+--rbc-search-button-primary-hover // Primary button hover
+--rbc-search-button-secondary-bg  // Secondary button background
+--rbc-search-button-secondary-hover // Secondary button hover
+--rbc-search-icon-color         // Icon color
+--rbc-search-divider           // Divider color

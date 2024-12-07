@@ -1,0 +1,79 @@
+pipeline {
+    agent {
+        node {
+            label 'python-projects-main'
+        }
+    }
+    
+    environment {
+        DOCKER_BUILDKIT = '1'
+        REGISTRY = 'registry.rayanbourse.ir'
+        IMAGE_NAME = 'rbc-design-system-publisher'
+        BUILD_NUMBER = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        NEXUS_REGISTRY = 'https://nexus.rayanbourse.ir/repository/npm-hosted/'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Publisher Image') {
+            steps {
+                script {
+                    docker.build("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}", "-f ./Dockerfile.publish .")
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    docker.image("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}")
+                        .inside {
+                            sh 'npm run test'
+                        }
+                }
+            }
+        }
+
+        stage('Publish to Nexus') {
+            when {
+                expression { 
+                    return env.BRANCH_NAME in ['master', 'main'] 
+                }
+            }
+            steps {
+                script {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'nexus-npm-creds',
+                            usernameVariable: 'NPM_USER',
+                            passwordVariable: 'NPM_PASS'
+                        )
+                    ]) {
+                        // Run the publish container with credentials
+                        sh """
+                            docker run --rm \
+                                -e NPM_REGISTRY=${NEXUS_REGISTRY} \
+                                -e NPM_USER=${NPM_USER} \
+                                -e NPM_PASS=${NPM_PASS} \
+                                ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up Docker images
+            sh """
+                docker rmi ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} || true
+            """
+        }
+    }
+}
